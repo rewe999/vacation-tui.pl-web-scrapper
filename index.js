@@ -1,21 +1,10 @@
 const puppeteer = require('puppeteer');
 const data = require('./env');
-const {connect} = require('./db')
+const {connection} = require('./db')
 const action = require('./actions/actionBootstrap');
 
-let connection = connect;
-
 (async () => {
-    console.log("Starting")
-    connection.connect((err) => {
-        if (err) {
-            console.log("Error connecting to database");
-            return;
-        }
-        console.log("Connected to database");
-    });
-    process.exit(0);
-
+    console.log("Starting...")
 
     const browser = await puppeteer.launch({headless: false}); // { headless: false }
     const page = await browser.newPage();
@@ -27,11 +16,25 @@ let connection = connect;
     const hotelData = action.getOffers(page).then((data) => console.log(data));
     console.log(hotelData);
 
+    connection.connect((error) => {
+        if (error) {
+            console.log('Error connecting to MySQL database:', error);
+        } else {
+            connection.query('SELECT * FROM author', (error, results, fields) => {
+                if (error) {
+                    console.log('Error in the query', error);
+                } else {
+                    console.log('Results:', results);
+                }
+            });
+        }
+    });
 
+    connection.end();
     // await browser.close();
     console.log("Success");
 })();
 
-// db.connect.end();
+
 
 

@@ -9,7 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mysql": "^2.18.1",
+    "mysql": "github:mysqljs/mysql",
+    "mysql2": "^3.9.1",
     "puppeteer": "^22.2.0"
   }
 }
