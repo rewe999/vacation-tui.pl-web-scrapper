@@ -22,7 +22,7 @@ const {insertOffers} = require('./queries/insert');
 
     const hotelData = await action.getOffers(page);
     insertOffers(connection, hotelData);
-    console.log(hotelData);
+    // console.log(hotelData);
 
     connection.end();
     await browser.close();
