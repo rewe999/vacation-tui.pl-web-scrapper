@@ -1,4 +1,4 @@
-function insertAuthor(connection, data) {
+function insertOffers(connection, data) {
     console.log(data);
     connection.query(
         'INSERT INTO learn.vacation (hotelName, price, city, airport, link, hotelCode) VALUES (?, ?, ?, ?, ?, ?)',
@@ -11,5 +11,5 @@ function insertAuthor(connection, data) {
 }
 
 module.exports = {
-    insertAuthor
+    insertOffers: insertOffers
 }
