@@ -7,7 +7,8 @@ async function getOffers(page) {
 
             return hotels.map(hotel => {
                 const hotelName = hotel.querySelector('.offer-tile-body__hotel-name')?.textContent.trim() || 'N/A';
-                const price = hotel.querySelector('.price-value__amount')?.textContent.trim() || 'N/A';
+                const priceText = hotel.querySelector('.price-value__amount')?.textContent.trim() || 'N/A';
+                const price = priceText !== 'N/A' ? parseFloat(priceText.replace(/\s/g, '')) : 'N/A';
                 const city = hotel.querySelector('[itemprop="name"]')?.textContent.trim() || 'N/A';
                 const airport = hotel.querySelector('.departure-flight__mobile-button')?.textContent.trim() || 'N/A';
                 const hotelLinkElement = hotel.querySelector('h3.heading.offer-tile-body__title a');

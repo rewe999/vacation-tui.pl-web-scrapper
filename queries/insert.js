@@ -1,12 +1,14 @@
 function insertOffers(connection, data) {
-    console.log(data);
-    connection.query(
-        'INSERT INTO learn.vacation (hotelName, price, city, airport, link, hotelCode) VALUES (?, ?, ?, ?, ?, ?)',
-        [data.hotelName, data.price, data.city, data.airport, data.hotelLink, data.hotelCode],
-        (error, results, fields) => {
-        if (error) {
-            console.log('insert data error: ', error);
-        }
+    data.forEach(offer => {
+        connection.query(
+            'INSERT IGNORE INTO mydb.vacation (hotelName, price, city, airport, link, hotelCode) VALUES (?, ?, ?, ?, ?, ?)',
+            [offer.hotelName, offer.price, offer.city, offer.airport, offer.hotelLink, offer.hotelCode],
+            (error, results, fields) => {
+                if (error) {
+                    console.log('insert data error: ', error);
+                }
+            }
+        );
     });
 }
 
