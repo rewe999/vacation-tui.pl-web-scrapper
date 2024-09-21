@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const data = require('./env');
-const {connection} = require('./db')
+// const {connection} = require('./db')
 const action = require('./actions/actionBootstrap');
 const {insertAuthor} = require('./queries/insert');
 
@@ -11,24 +11,18 @@ const {insertAuthor} = require('./queries/insert');
     const page = await browser.newPage();
     await page.goto(data.url)
 
-    action.confirmCookies(page);
-    await action.showMore(page);
+    await action.confirmCookies(page);
 
-    const hotelData = action.getOffers(page).then((data) => {
-        connection.connect((error) => {
-            if (error) {
-                console.log('Error connecting to MySQL database:', error);
-            } else {
-                insertAuthor(connection, data);
-            }
-        });
-    });
+    let hasMoreOffers = true;
 
-    connection.end();
-    // await browser.close();
+    while (hasMoreOffers) {
+        hasMoreOffers = await action.showMore(page);
+    }
+
+    const hotelData = await action.getOffers(page);
+    console.log(hotelData);
+
+    // connection.end();
+    await browser.close();
     console.log("Success");
 })();
-
-
-
-
